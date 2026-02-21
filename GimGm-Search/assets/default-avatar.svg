@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+    <!-- Background gradient -->
+    <defs>
+        <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    
+    <!-- Background -->
+    <rect width="200" height="200" fill="url(#bgGradient)"/>
+    
+    <!-- Circle background for avatar -->
+    <circle cx="100" cy="80" r="50" fill="white" opacity="0.3"/>
+    
+    <!-- Head -->
+    <circle cx="100" cy="70" r="35" fill="white"/>
+    
+    <!-- Body -->
+    <ellipse cx="100" cy="140" rx="45" ry="50" fill="white"/>
+    
+    <!-- Decorative elements -->
+    <circle cx="100" cy="170" r="5" fill="rgba(255,255,255,0.5)"/>
+</svg>

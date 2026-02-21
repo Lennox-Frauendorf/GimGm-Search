@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GimGm-Search | Moderne Suchmaschine</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Hauptansicht: Login/Registrierung -->
+    <div id="authContainer" class="auth-container">
+        <!-- Login Form -->
+        <div id="loginForm" class="form-container active">
+            <div class="form-wrapper">
+                <div class="form-header">
+                    <h1 class="logo-title">
+                        <span class="logo-g">G</span><span class="logo-m">M</span>
+                    </h1>
+                    <p class="form-subtitle">Willkommen zur modernsten Suchmaschine</p>
+                </div>
+
+                <form onsubmit="return handleLogin(event)">
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="email" id="loginEmail" placeholder="E-Mail Adresse" required>
+                    </div>
+
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="loginPassword" placeholder="Passwort" required>
+                    </div>
+
+                    <button type="submit" class="btn-primary">
+                        <span>Anmelden</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+
+                <p class="form-toggle">
+                    Noch kein Konto? 
+                    <a href="#" onclick="toggleForms(); return false;">Registrieren</a>
+                </p>
+
+                <div class="demo-login">
+                    <p class="demo-text">Demo-Konto testen:</p>
+                    <button class="btn-demo" onclick="useDemoAccount()">
+                        <i class="fas fa-user-circle"></i> Demo Nutzer
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Registrierung Form -->
+        <div id="registerForm" class="form-container">
+            <div class="form-wrapper">
+                <div class="form-header">
+                    <h1 class="logo-title">
+                        <span class="logo-g">G</span><span class="logo-m">M</span>
+                    </h1>
+                    <p class="form-subtitle">Erstelle dein GimGm Konto</p>
+                </div>
+
+                <form onsubmit="return handleRegister(event)">
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="registerName" placeholder="Vollständiger Name" required>
+                    </div>
+
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="registerEmail" placeholder="E-Mail Adresse" required>
+                    </div>
+
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="registerPassword" placeholder="Passwort (min. 6 Zeichen)" required minlength="6">
+                    </div>
+
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="registerPasswordConfirm" placeholder="Passwort bestätigen" required minlength="6">
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">Ich akzeptiere die Nutzungsbedingungen</label>
+                    </div>
+
+                    <button type="submit" class="btn-primary">
+                        <span>Konto erstellen</span>
+                        <i class="fas fa-check"></i>
+                    </button>
+                </form>
+
+                <p class="form-toggle">
+                    Bereits registriert? 
+                    <a href="#" onclick="toggleForms(); return false;">Anmelden</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Suchmaschinen-Dashboard -->
+    <div id="dashboardContainer" class="dashboard-container hidden">
+        <!-- Header Navigation -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <h2 class="main-logo">
+                        <span class="logo-g animated-logo">G</span><span class="logo-m animated-logo">M</span>
+                        <span class="logo-search">Search</span>
+                    </h2>
+                </div>
+
+                <div class="search-bar-header">
+                    <input type="text" id="headerSearch" placeholder="Schnelle Suche..." class="header-search-input">
+                    <button onclick="performQuickSearch()" class="header-search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+
+                <div class="header-actions">
+                    <button class="btn-icon" onclick="toggleHistory()" title="Suchverlauf">
+                        <i class="fas fa-history"></i>
+                    </button>
+                    <button class="btn-icon" onclick="toggleSettings()" title="Einstellungen">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    <button class="btn-icon user-btn" onclick="toggleProfile()">
+                        <img id="headerAvatar" src="assets/default-avatar.svg" alt="Profil" class="avatar-small">
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hauptbereich -->
+        <main class="dashboard-main">
+            <!-- Suchbereich -->
+            <section id="searchSection" class="search-section active-panel">
+                <div class="search-container">
+                    <h1 class="search-title">Was möchtest du finden?</h1>
+                    <p class="search-subtitle">Die moderne Suche von GimGm</p>
+
+                    <div class="search-input-wrapper">
+                        <input type="text" id="mainSearch" placeholder="Suchanfrage eingeben..." class="search-input">
+                        <button onclick="performSearch()" class="btn-search">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+
+                    <div class="search-suggestions" id="searchSuggestions">
+                        <div class="suggestion-item" onclick="searchWithTerm('HTML/CSS Tutorial')">
+                            <i class="fas fa-search"></i> HTML/CSS Tutorial
+                        </div>
+                        <div class="suggestion-item" onclick="searchWithTerm('JavaScript lernen')">
+                            <i class="fas fa-search"></i> JavaScript lernen
+                        </div>
+                        <div class="suggestion-item" onclick="searchWithTerm('Web Development')">
+                            <i class="fas fa-search"></i> Web Development
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Suchergebnisse -->
+                <div id="resultsSection" class="results-section hidden">
+                    <div class="results-header">
+                        <h2 id="resultsTitle">Suchergebnisse für: <strong id="searchQuery"></strong></h2>
+                        <button class="btn-back" onclick="backToSearch()">← Zurück</button>
+                    </div>
+                    <div id="resultsList" class="results-list"></div>
+                </div>
+            </section>
+
+            <!-- Suchverlauf Panel -->
+            <section id="historyPanel" class="side-panel">
+                <div class="panel-header">
+                    <h3><i class="fas fa-history"></i> Suchverlauf</h3>
+                    <button class="btn-icon" onclick="toggleHistory()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="panel-content">
+                    <div id="historyList" class="history-list"></div>
+                    <button class="btn-danger" id="clearHistoryBtn" onclick="clearAllHistory()" style="display: none;">
+                        <i class="fas fa-trash"></i> Ganzen Suchverlauf löschen
+                    </button>
+                </div>
+            </section>
+
+            <!-- Profil/Einstellungen Panel -->
+            <section id="profilePanel" class="side-panel">
+                <div class="panel-header">
+                    <h3><i class="fas fa-user"></i> Mein Profil</h3>
+                    <button class="btn-icon" onclick="toggleProfile()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="panel-content profile-content">
+                    <div class="profile-avatar-section">
+                        <div class="avatar-container">
+                            <img id="profileAvatar" src="assets/default-avatar.svg" alt="Profilbild" class="profile-avatar">
+                            <label class="avatar-upload-label">
+                                <i class="fas fa-camera"></i>
+                                <input type="file" id="avatarUpload" accept="image/*" onchange="handleAvatarUpload(event)">
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="profile-info">
+                        <div class="info-group">
+                            <label>Name</label>
+                            <p id="profileName"></p>
+                        </div>
+                        <div class="info-group">
+                            <label>E-Mail</label>
+                            <p id="profileEmail"></p>
+                        </div>
+                        <div class="info-group">
+                            <label>Registriert am</label>
+                            <p id="profileDate"></p>
+                        </div>
+                    </div>
+
+                    <div class="profile-stats">
+                        <div class="stat-box">
+                            <i class="fas fa-search"></i>
+                            <div>
+                                <p class="stat-number" id="statSearches">0</p>
+                                <p class="stat-label">Suchen</p>
+                            </div>
+                        </div>
+                        <div class="stat-box">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <p class="stat-number" id="statToday">0</p>
+                                <p class="stat-label">Heute</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn-danger btn-full" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Abmelden
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="dashboard-footer">
+            <p>&copy; 2026 GimGm-Search. Datenschutz | Nutzungsbedingungen | Kontakt</p>
+        </footer>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
